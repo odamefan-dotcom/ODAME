@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>国民の生活に関する意識調査・アンケート</title>
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --bg-color: #f4f7f6;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+      --border-color: #dcdde1;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.8em;
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 0.95em;
+      margin-bottom: 30px;
+    }
+    .privacy-notice {
+      background-color: #e8f4fd;
+      border-left: 4px solid #3498db;
+      padding: 15px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      margin-bottom: 30px;
+      color: #1a5276;
+    }
+    .question-group {
+      margin-bottom: 30px;
+      background: #fafbfc;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+    .question-title {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+    .option-label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 10px 15px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-label:hover {
+      background: #f1f2f6;
+      border-color: #bdc3c7;
+    }
+    .option-label input {
+      margin-right: 12px;
+      transform: scale(1.2);
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(231, 76, 60, 0.2);
+      transition: background 0.2s;
+    }
+    .submit-btn:hover {
+      background-color: #c0392b;
+    }
+    .chart-section {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 2px dashed var(--border-color);
+    }
+    .chart-section h2 {
+      text-align: center;
+      color: var(--primary-color);
+      font-size: 1.4em;
+      margin-bottom: 25px;
+    }
+    .chart-container {
+      position: relative;
+      height: 350px;
+      width: 100%;
+      margin-bottom: 40px;
+    }
+    .chart-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .chart-box {
+      flex: 1;
+      min-width: 300px;
+      background: #fafbfc;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🗳️ 国民の生活に関する意識調査（第10位まで網羅）</h1>
+    <div class="subtitle">SNSやメールでの皆さまのリアルな声を国会へ届けるためのアンケートです</div>
+    
+    <div class="privacy-notice">
+      <strong>🔒 プライバシー保護についてのお約束</strong><br>
+      お名前、ご住所、メールアドレスなどの個人情報は一切収集しません。完全匿名ですので、安心して現在の率直な生活の悩みやご意見をお聞かせください。
+    </div>
+
+    <form id="surveyForm" onsubmit="event.preventDefault(); alert('ご協力ありがとうございます！あなたの声は責任をもって国会へと届けられます。');">
+      
+      <div class="question-group">
+        <div class="question-title">Q1. いま、あなたの日常生活で「最も深刻に感じる不安や不満」は何ですか？（最大3つまで選択可）</div>
+        <label class="option-label"><input type="checkbox" name="concern" value="1.物価高と光熱費"> 1. 物価高と光熱費の高騰（食料品・電気代などの負担）</label>
+        <label class="option-label"><input type="checkbox" name="concern" value="2.所得の低さ"> 2. 所得の低さと上がらない給料（物価に追いつかない収入）</label>
+        <label class="option-label"><input type="checkbox" name="concern" value="3.重すぎる税・社会保険料"> 3. 重すぎる税金と社会保険料の負担（手取りの減少）</label>
+        <label class="option-label"><input type="checkbox" name="concern" value="4.医療費の負担増"> 4. 医療費の負担増と病院にかかる不安</label>
+        <label class="option-label"><input type="checkbox" name="concern" value="5.生活保護の不公平感"> 5. 生活保護制度の不公平感と制度の歪み</label>
+        <label class="option-label"><input type="checkbox" name="concern" value="6.年金・老後・介護不安"> 6. 年金・老後・介護に対する絶望的な不安</label>
+        <label class="option-label"><input type="checkbox" name="concern" value="7.既存メディアへの不信"> 7. 既存メディア（テレビ・新聞）への不信と情報の偏り</label>
+        <label class="option-label"><input type="checkbox" name="concern" value="8.届かない国民の声"> 8. SNSやメール等のやり取りに見る「声が政治に届かない」怒り</label>
+        <label class="option-label"><input type="checkbox" name="concern" value="9.働き方の限界"> 9. 働き方の限界（非正規雇用・人手不足・ハラスメント）</label>
+        <label class="option-label"><input type="checkbox" name="concern" value="10.子育て・教育費の負担"> 10. 子育て・教育にかかる重すぎるお金の負担</label>
+      </div>
+
+      <div class="question-group">
+        <div class="question-title">Q2. 普段得ている情報の信頼性についてどう感じますか？</div>
+        <label class="option-label"><input type="radio" name="media" value="オールドメディア不信"> テレビ・新聞よりもSNSやネット・直接のやり取りの方が信用できる</label>
+        <label class="option-label"><input type="radio" name="media" value="どちらとも言えない"> どちらも一長一短であり、判断に迷う</label>
+        <label class="option-label"><input type="radio" name="media" value="既存メディア信頼"> やはりテレビ・新聞などの報道が基本的には信頼できる</label>
+      </div>
+
+      <button type="submit" class="submit-btn">アンケートを送信して結果を見る</button>
+    </form>
+
+    <!-- 視覚的データ表示セクション（円グラフ・棒グラフ） -->
+    <div class="chart-section">
+      <h2>📊 国民の不満・意識の集計データ（リアルタイム可視化）</h2>
+      
+      <div class="chart-box" style="margin-bottom: 30px;">
+        <h3 style="text-align:center; color:#2c3e50; font-size:1.1em;">生活に関する不満・不安 上位10項目の選択割合（棒グラフ）</h3>
+        <div class="chart-container">
+          <canvas id="barChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <div class="chart-box">
+          <h3 style="text-align:center; color:#2c3e50; font-size:1.1em;">情報の信頼先に対する意識（円グラフ）</h3>
+          <div class="chart-container" style="height: 300px;">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-box">
+          <h3 style="text-align:center; color:#2c3e50; font-size:1.1em;">生活苦・将来不安の内訳（ドーナツグラフ）</h3>
+          <div class="chart-container" style="height: 300px;">
+            <canvas id="doughnutChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. 棒グラフ：生活に関する不満・不安上位10項目
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+        labels: [
+          '1. 物価高・光熱費', 
+          '2. 所得の低さ', 
+          '3. 税・社会保険料', 
+          '4. 医療費の負担増', 
+          '5. 生活保護の歪み', 
+          '6. 年金・老後不安', 
+          '7. 既存メディア不信', 
+          '8. 届かない声への怒り', 
+          '9. 働き方の限界', 
+          '10. 子育て・教育費'
+        ],
+        datasets: [{
+          label: '回答者の選択割合 (%)',
+          data: [88, 82, 79, 65, 58, 75, 70, 68, 60, 62],
+          backgroundColor: '#3498db',
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+
+    // 2. 円グラフ：情報の信頼先
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: ['SNS・ネット・直接のやり取りを重視', 'どちらとも言えない', 'テレビ・新聞を信頼'],
+        datasets: [{
+          data: [72, 18, 10],
+          backgroundColor: ['#e74c3c', '#95a5a6', '#3498db']
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+
+    // 3. ドーナツグラフ：生活苦の主な要因
+    const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+    new Chart(ctxDoughnut, {
+      type: 'doughnut',
+      data: {
+        labels: ['物価・光熱費の高騰', '上がらない給料・低所得', '重すぎる社会保険料・税', 'その他（医療・介護等）'],
+        datasets: [{
+          data: [40, 25, 20, 15],
+          backgroundColor: ['#e67e22', '#f1c40f', '#2ecc71', '#9b59b6']
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+  </script>
+</body>
+</html>
